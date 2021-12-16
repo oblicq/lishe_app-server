@@ -3,7 +3,7 @@ const accountsRoutes = require("./src/accounts/routes");
 const agentsRoutes = require ("./src/agents/routes");
 const classesRoutes=require ("./src/classes/routes");
 const usersRoutes=require ("./src/users/routes");
-
+const ProductsRoutes=require("./src/products/routes");
 
 const app = express();
 
@@ -21,7 +21,7 @@ app.use("/api/agents", agentsRoutes);
 app.use("/api/accounts", accountsRoutes);
 app.use("/api/classes", classesRoutes);
 app.use("/api/users", usersRoutes);
-
+app.use("/api/products", ProductsRoutes)
 app.listen(PORT, () => {
   console.log(`app listening on port ${PORT}`);
 });

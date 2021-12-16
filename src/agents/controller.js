@@ -28,21 +28,28 @@ const addAgent = (req, res) =>{
     })
 })
 }
-const deleteAgent=(req,res)=>{
-    const id=parseInt(req.params.id);
+const deleteAgent = async (req, res) => {
+    const id = parseInt(req.params.id);
+    pool.query('DELETE FROM agent WHERE agent_id = $1', [id ]);
+  
+    res.status(200).send({ Message: 'Agent deleted successfully!', id });
+  };
+  
+// const deleteAgent=(req,res)=>{
+//     const id=parseInt(req.params.id);
 
-    pool.query(queries.getAgentByIdQuery, [id],(error,results)=>{
-        if(noAgentFound){
-            res.send("Agent does not exist");
-        }
-        //DELETE AGENT HERE
-        pool.query(queries.deleteAgent,[id], (error,results)=>{
-            if(error) throw error;
-            res.status(200).send("Agent deleted Successfuly");
-        })
-    })
+//     pool.query(queries.getAgentByIdQuery, [id],(error,results)=>{
+//         if(noAgentFound){
+//             res.send("Agent does not exist");
+//         }
+//         //DELETE AGENT HERE
+//         pool.query(queries.deleteAgent,[id], (error,results)=>{
+//             if(error) throw error;
+//             res.status(200).send("Agent deleted Successfuly");
+//         })
+//     })
 
-}
+// }
 const updateAgent = (req, res) => {
     const id = parseInt(req.params.id);
     const { location } = req.body;

@@ -31,22 +31,20 @@ const addClasses = (req, res) =>{
     })
 })
 }
-  
-const deleteClasses=(req,res)=>{
-    const id=parseInt(req.params.id);
 
-    pool.query(queries.getClassByIdQuery, [id],(error,results)=>{
-        if(noClassFound){
-            res.send("Class does not exist");
-        }
-        //DELETE CLASS HERE
-        pool.query(queries.deleteClasses,[id], (error,results)=>{
-            if(error) throw error;
-            res.status(200).send("Class deleted Successfuly");
-        })
-    })
-
-}
+const deleteClasses = async (req, res) => {
+    const id = parseInt(req.params.id);
+    pool.query("SELECT * FROM classes WHERE class_id=$1", [id], (error, results) => {
+      const noClass = !results.rows.length;
+      if (noClass) {
+        res.send("Class does not exist");
+      }
+      pool.query("DELETE FROM classes WHERE class_id=$1", [id], (error, results) => {
+        if (error) throw error;
+        res.status(200).send("Class Deleted Successful");
+      });
+    });
+  };
 const updateClasses = (req, res) => {
     const id = parseInt(req.params.id);
     const { location } = req.body;

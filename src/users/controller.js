@@ -31,22 +31,28 @@ const addUsers = (req, res) =>{
     })
 })
 }
+const deleteUsers = async (req, res) => {
+    const id = parseInt(req.params.id);
+    pool.query('DELETE FROM users WHERE user_id = $1', [id ]);
   
-const deleteUsers=(req,res)=>{
-    const id=parseInt(req.params.id);
+    res.status(200).send({ Message: 'User deleted successfully!', id });
+  };
+  
+// const deleteUsers=(req,res)=>{
+//     const id=parseInt(req.params.id);
 
-    pool.query(queries.getUserByIdQuery, [id],(error,results)=>{
-        if(noClassFound){
-            res.send("User does not exist");
-        }
-        //DELETE USER HERE
-        pool.query(queries.deleteUsers,[id], (error,results)=>{
-            if(error) throw error;
-            res.status(200).send("User deleted Successfuly");
-        })
-    })
+//     pool.query(queries.getUserByIdQuery, [id],(error,results)=>{
+//         if(noUserFound){
+//             res.send("User does not exist");
+//         }
+//         //DELETE USER HERE
+//         pool.query(queries.deleteUsers,[id], (error,results)=>{
+//             if(error) throw error;
+//             res.status(200).send("User deleted Successfuly");
+//         })
+//     })
 
-}
+// }
 const updateUsers = (req, res) => {
     const id = parseInt(req.params.id);
     const { email } = req.body;
@@ -57,7 +63,7 @@ const updateUsers = (req, res) => {
       if (noUserFound) {
         res.send("User does not exist");
       }
-      pool.query(queries.updateUsers, [price, id], (error, results) => {
+      pool.query(queries.updateUsers, [email, id], (error, results) => {
         if (error) throw error;
         res.status(200).send("User updated successfully");
       });
