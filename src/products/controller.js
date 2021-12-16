@@ -17,7 +17,7 @@ const addProducts = (req, res) =>{
     pool.query(queries.getProductsId, [product_id], (error, results)=>{
         console.log(req.body)
         if(results.rows.length){
-            res.send("Product already exists")
+            res.send("Product already exist")
            
          
             return
